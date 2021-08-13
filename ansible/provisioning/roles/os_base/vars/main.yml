@@ -1,0 +1,7 @@
+---
+os_base_centos_version: '7'
+os_base_centos_arch: 'x86_64'
+os_base_log_dir: '/var/log'
+os_base_local_timezone: 'America/Sao_Paulo'
+
+ntp_drift_file_path: '/etc/ntp.drift'

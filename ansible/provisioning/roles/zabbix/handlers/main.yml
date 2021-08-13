@@ -1,0 +1,28 @@
+---
+- name: restart zabbix-server
+  service:
+    name: zabbix-server
+    state: restarted
+  become: yes
+
+- name: restart rh-nginx 
+  service:
+    name: '{{nginx_service_name}}' 
+    state: restarted
+  become: yes
+
+- name: restart rh-php-fpm 
+  service:
+    name: '{{php_fpm_service_name}}'
+    state: restarted
+  become: yes
+
+- name: restart firewalld
+  service:
+    name: firewalld
+    state: restarted
+  become: yes
+
+
+
+

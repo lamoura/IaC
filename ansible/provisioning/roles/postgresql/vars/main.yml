@@ -1,0 +1,3 @@
+---
+posgres_admin_user: 'postgres'
+posgres_pg_hba_path: '/var/lib/pgsql/data/pg_hba.conf'

@@ -1,0 +1,5 @@
+include = {{zabbix_dependencies_etc_dir}}/{{php_root_dir}}/php-fpm.d/*.conf
+[global]
+pid = {{zabbix_dependencies_var_dir}}/{{php_root_dir}}/run/php-fpm/php-fpm.pid
+error_log = {{os_base_log_dir}}/{{php_fpm_log_dir}}/error.log
+daemonize = yes

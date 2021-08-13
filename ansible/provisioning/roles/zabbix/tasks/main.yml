@@ -1,0 +1,220 @@
+---
+- name: 'Install Zabbix official repository.'
+  yum:
+    name: 'https://repo.zabbix.com/zabbix/{{zabbix_version}}/rhel/{{os_base_centos_version}}/{{os_base_centos_arch}}/zabbix-release-{{zabbix_version}}-1.el{{os_base_centos_version}}.noarch.rpm' 
+    state: present
+  become: yes
+  tags: prod
+  
+- name: 'Install Zabbix packages.'
+  yum:
+    name: '{{item}}'
+    state: latest
+    update_cache: yes 
+  loop:
+    - zabbix-server-pgsql
+    - zabbix-agent
+  become: yes
+  tags: prod
+
+- name: 'Enable Centos Software Collections (SCL).'
+  yum:
+    name: centos-release-scl
+    state: latest
+  become: yes
+  tags: prod
+
+# dependencies:
+#   ansible-galaxy collection install community.general
+#
+- name: 'Enable Zabbix frontend repository.'
+  community.general.ini_file:
+    path: /etc/yum.repos.d/zabbix.repo
+    section: zabbix-frontend
+    option: enabled
+    value: '1'
+  become: yes
+  tags: prod
+
+- name: 'Change php-fpm files owner and group.'
+  file:
+    path: '{{zabbix_dependencies_var_dir}}/{{php_root_dir}}/lib/php/{{item}}'
+    owner: '{{nginx_owner}}'
+    group: '{{nginx_group}}'
+    mode: '0770'
+  loop:
+    - opcache
+    - session
+    - wsdlcache
+  become: yes
+  tags: prod
+
+- name: 'Create logs directories.'
+  file:
+    path: '{{os_base_log_dir}}/{{item}}'
+    state: directory
+    owner: '{{nginx_owner}}'
+    group: '{{nginx_group}}'
+    mode: '0750'
+  loop:
+    - '{{nginx_log_dir}}'
+    - '{{php_fpm_log_dir}}'
+  become: yes
+  tags: prod
+
+- name: 'Install Zabbix frontend.'
+  yum:
+    name: '{{item}}'
+    state: latest
+    update_cache: yes 
+  loop:
+    - zabbix-web-pgsql-scl
+    - zabbix-nginx-conf-scl
+  become: yes
+  tags: prod
+
+- name: 'Create Zabbix database.'
+  postgresql_db:
+    state: present
+    name: '{{zabbix_db_name}}'
+  become: yes
+  become_user: '{{posgres_admin_user}}'
+  tags: prod
+
+- name: 'Create Zabbix database user.'
+  postgresql_user:
+    state: present
+    name: '{{zabbix_db_username}}'
+    password: '{{zabbix_db_password}}'  
+  become: yes
+  become_user: '{{posgres_admin_user}}' 
+  tags: prod
+
+- name: 'Apply GRANT to Zabbix database user.'
+  postgresql_privs:
+    type: database
+    database: '{{zabbix_db_name}}' 
+    roles: '{{zabbix_db_username}}' 
+    grant_option: no
+    privs: all
+  register: grant_status
+  become: yes
+  become_user: '{{posgres_admin_user}}'  
+  tags: prod
+
+- name: 'Database connection setup.'
+  postgresql_pg_hba:
+    dest: '{{posgres_pg_hba_path}}'
+    contype: host
+    databases: all
+    method: md5
+    users: '{{zabbix_db_username}}' 
+    create: true
+  become: yes
+  become_user: '{{posgres_admin_user}}' 
+  notify: restart postgresql
+  tags: prod
+
+- name: 'Build Zabbix database default.'
+  shell:
+    cmd: 'zcat /usr/share/doc/zabbix-server-pgsql*/create.sql.gz | sudo -u {{zabbix_db_username}} psql {{zabbix_db_name}}' 
+  when: grant_status.changed
+  tags: prod
+
+- name: "Create ssl directory."
+  file:
+    path: '{{zabbix_dependencies_etc_dir}}/{{nginx_root_dir}}/nginx/ssl'
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: yes
+  tags: prod
+
+#
+# ansible-galaxy collection install community.crypto
+#
+- name: 'Create private key.'
+  community.crypto.openssl_privatekey:
+    path: '{{zabbix_dependencies_etc_dir}}/{{nginx_root_dir}}/nginx/ssl/zabbix.pem'
+    size: 4096
+  tags: prod
+
+- name: 'Create Openssl CSR.'
+  community.crypto.openssl_csr:
+    path: '{{zabbix_dependencies_etc_dir}}/{{nginx_root_dir}}/nginx/ssl/zabbix.csr' 
+    privatekey_path: '{{zabbix_dependencies_etc_dir}}/{{nginx_root_dir}}/nginx/ssl/zabbix.pem' 
+    country_name: '{{nginx_self_signed_cert_country_name}}'  
+    state_or_province_name: '{{nginx_self_signed_cert_state_or_province_name}}' 
+    locality_name: '{{nginx_self_signed_cert_locality_name}}'  
+    organization_name: '{{nginx_self_signed_cert_organization_name}}'
+    email_address: '{{nginx_self_signed_cert_email_address}}'
+    common_name: '{{nginx_self_signed_cert_common_name}}'
+  tags: prod
+
+- name: 'Create self-signed certificate.'
+  community.crypto.x509_certificate:
+    path: '{{zabbix_dependencies_etc_dir}}/{{nginx_root_dir}}/nginx/ssl/zabbix.crt' 
+    privatekey_path: '{{zabbix_dependencies_etc_dir}}/{{nginx_root_dir}}/nginx/ssl/zabbix.pem'
+    csr_path: '{{zabbix_dependencies_etc_dir}}/{{nginx_root_dir}}/nginx/ssl/zabbix.csr' 
+    provider: selfsigned
+  notify:
+    - restart rh-nginx
+  tags: prod
+
+- name: 'Templates setup.'
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  loop:
+    - { src: 'templates/zabbix_server.conf.j2', dest: '{{zabbix_etc_dir}}/zabbix_server.conf' }
+    - { src: 'templates/zabbix_nginx.conf.j2', dest: '{{zabbix_dependencies_etc_dir}}/{{nginx_root_dir}}/nginx/conf.d/zabbix.conf' }
+    - { src: 'templates/nginx.conf.j2', dest: '{{zabbix_dependencies_etc_dir}}/{{nginx_root_dir}}/nginx/nginx.conf' }
+    - { src: 'templates/www.conf.j2', dest: '{{zabbix_dependencies_etc_dir}}/{{php_root_dir}}/php-fpm.d/www.conf' }
+    - { src: 'templates/zabbix_php.conf.j2', dest: '{{zabbix_dependencies_etc_dir}}/{{php_root_dir}}/php-fpm.d/zabbix.conf' }
+    - { src: 'templates/php-fpm.conf.j2', dest: '{{zabbix_dependencies_etc_dir}}/{{php_root_dir}}/php-fpm.conf' }
+    - { src: 'templates/zabbix.conf.php.j2', dest: '{{zabbix_etc_dir}}/web/zabbix.conf.php' }
+  notify:
+    - restart zabbix-server
+    - restart rh-nginx
+    - restart rh-php-fpm
+  become: yes
+  tags: prod
+
+- name: 'Start and enable the services.'
+  service:
+    name: '{{item}}'
+    state: started
+    enabled: yes
+  loop:
+    - zabbix-server
+    - zabbix-agent 
+    - '{{php_fpm_service_name}}'
+    - '{{nginx_service_name}}'
+  become: yes
+  tags: prod
+
+- name: "Allow https traffic."
+  firewalld:
+    service: "{{item}}"
+    permanent: yes
+    state: enabled
+  loop:
+    - https 
+  notify:
+    - restart firewalld
+  become: yes
+  tags: prod
+
+- name: "Allow port {{zabbix_trapper_port}} traffic to zabbix_trapper."
+  firewalld:
+    port: '{{zabbix_trapper_port}}/tcp'
+    permanent: yes
+    state: enabled
+  notify:
+    - restart firewalld
+  become: yes
+  tags: prod
+
+
+

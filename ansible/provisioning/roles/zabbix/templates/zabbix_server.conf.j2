@@ -1,0 +1,13 @@
+LogFile={{os_base_log_dir}}/zabbix/zabbix_server.log
+LogFileSize=0
+PidFile=/var/run/zabbix/zabbix_server.pid
+SocketDir=/var/run/zabbix
+DBName={{zabbix_db_name}}
+DBUser={{zabbix_db_username}}
+DBPassword={{zabbix_db_password}}
+SNMPTrapperFile={{os_base_log_dir}}/snmptrap/snmptrap.log
+Timeout=4
+AlertScriptsPath=/usr/lib/zabbix/alertscripts
+ExternalScripts=/usr/lib/zabbix/externalscripts
+LogSlowQueries=3000
+StatsAllowedIP=127.0.0.1

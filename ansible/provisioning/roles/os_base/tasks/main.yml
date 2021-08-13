@@ -1,0 +1,67 @@
+---
+- name: 'Install os base packages.'
+  yum:
+    name: '{{item}}'
+    state: latest
+  loop:
+    - ntp
+    - python-ipaddress
+    - python2-cryptography
+    - telnet
+  become: yes
+  tags: prod
+
+- name: 'Install ntp.'
+  yum:
+    name: '{{item}}'
+    state: latest
+  loop:
+    - ntp
+  register: inst_ntp_result
+  become: yes
+  tags: prod
+
+- name: 'touch: {{ntp_drift_file_path}}.'
+  file:
+    path: '{{ntp_drift_file_path}}'
+    state: touch
+    mode: u=rw,g=r,o=r
+  when: inst_ntp_result.changed
+  tags: prod
+
+- name: 'Templates setup.'
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  loop:
+    - { src: 'templates/ntp.conf.j2', dest: '/etc/ntp.conf' }
+  register: template_result
+  become: yes
+  tags: prod
+
+- name: 'Stop service.'
+  service:
+    name: '{{item}}'
+    state: stopped
+  loop:
+    - ntpd
+  become: yes
+  when: template_result.changed
+  tags: prod
+
+- name: 'Update date.'
+  shell:
+    cmd: ntpd -q -g
+  when: template_result.changed
+  tags: prod
+
+- name: 'Start service.'
+  service:
+    name: '{{item}}'
+    state: started
+    enabled: yes
+  loop:
+    - ntpd
+  become: yes
+  tags: prod
+
