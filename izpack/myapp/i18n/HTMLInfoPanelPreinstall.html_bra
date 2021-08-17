@@ -1,0 +1,15 @@
+<html>
+  <head>    
+    <style>
+      body {
+        font-family: helvetica, verdana, arial;
+        font-size: 9px;
+      }
+    </style>   
+  </head>
+  <body>
+    
+    <h3>Seja bem vindo a instalaçãodo do Myapp.</h3>    
+    
+  </body>
+</html>

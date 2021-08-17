@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<izpack:installation version="5.0"
+                     xmlns:izpack="http://izpack.org/schema/installation"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd">
+ 
+  <packs>
+		<pack name="Myapp" preselected="yes" required="yes">
+			<description>Myapp</description>
+			<file src="${SOURCE_FILE_PATH}/${SOURCE_MYAPP_PATH}/${SOURCE_BIN_PATH}/${BIN_MYAPP}" targetdir="${INSTALL_PATH}/${INSTALL_BIN_PATH}" override="true" condition="izpack.windowsinstall" />
+			<file src="${SOURCE_FILE_PATH}/${SOURCE_MYAPP_PATH}/${SOURCE_CONFIG_PATH}/${INI_MYAPP}" targetdir="${INSTALL_PATH}/${INSTALL_BIN_PATH}" override="true" condition="izpack.windowsinstall" />
+			<parsable targetfile="${INSTALL_PATH}/${INSTALL_BIN_PATH}/${INI_MYAPP}" condition="izpack.windowsinstall" />
+		</pack>
+
+		<pack name="Cleanup" preselected="yes" required="yes">
+			<description>Cleanup</description>
+			<file src="${SOURCE_FILE_PATH}/${SOURCE_SCRIPT_PATH}/${SCRIPT_CLEANUP}" targetdir="${WINDOWS_TEMP_DIR}" override="true" condition="izpack.windowsinstall"/>
+		</pack>	    
+	</packs>
+</izpack:installation>

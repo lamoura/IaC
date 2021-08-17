@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<izpack:installation version="5.0" 
+    xmlns:izpack="http://izpack.org/schema/installation" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd">
+
+    <dynamicvariables>        
+        <variable name="DB_SERVER_PORT_DEFAULT" checkonce="false" condition="enableMSSQL" value="1433" />
+        <variable name="DB_SERVER_PORT_DEFAULT" checkonce="false" condition="enableORACLE" value="1521" />
+
+        <variable name="jdbc.driver_path" checkonce="false" condition="enableMSSQL" value="jdbc.driver_path=jdbc/sqljdbc4.jar" />
+        <variable name="jdbc.driver" checkonce="false" condition="enableMSSQL" value="jdbc.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+        <variable name="jdbc.url" checkonce="false" condition="enableMSSQL" value="jdbc.url=jdbc:sqlserver://${DB_SERVER_IP}:${DB_SERVER_PORT};DatabaseName=${DB_NAME}" />
+        <variable name="jdbc.username" checkonce="false" condition="enableMSSQL" value="jdbc.username=${DB_USER}" />
+        <variable name="jdbc.password" checkonce="false" condition="enableMSSQL" value="jdbc.password=JDBC_ENCRYPTED_PASSWORD" />
+
+        <variable name="jdbc.driver_path" checkonce="false" condition="enableORACLE" value="jdbc.driver_path=jdbc/ojdbc8.jar" />
+        <variable name="jdbc.driver" checkonce="false" condition="enableORACLE" value="jdbc.driver=oracle.jdbc.driver.OracleDriver" />
+        <variable name="jdbc.url" checkonce="false" condition="enableORACLE" value="jdbc.url=jdbc:oracle:thin:@${DB_SERVER_IP}:${DB_SERVER_PORT}:${DB_NAME}" />
+        <variable name="jdbc.username" checkonce="false" condition="enableORACLE" value="jdbc.username=${DB_USER}" />
+        <variable name="jdbc.password" checkonce="false" condition="enableORACLE" value="jdbc.password=JDBC_ENCRYPTED_PASSWORD" />
+
+    </dynamicvariables>
+</izpack:installation>

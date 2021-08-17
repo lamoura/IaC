@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<izpack:langpack version="5.0" 
+	xmlns:izpack="http://izpack.org/schema/langpack" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+     xsi:schemaLocation="http://izpack.org/schema/langpack http://izpack.org/schema/5.0/izpack-langpack-5.0.xsd">
+
+     
+	<str id="CheckedHelloPanel.headline" txt="Myapp - instalação"/>
+	<str id="ProcessPanel.headline" txt="Myapp - instalação"/>	
+	<str id="LicencePanel.headline" txt="Myapp - instalação"/>
+	<str id="TargetPanel.headline" txt="Myapp - instalação"/>
+	<str id="PacksPanel.headline" txt="Myapp - instalação"/>	
+	<str id="UserInputPanel.headline" txt="Myapp - instalação"/>	
+	<str id="InstallPanel.headline" txt="Myapp - instalação"/>	
+	<str id="SimpleFinishPanel.headline" txt="Myapp - instalação"/>	
+	<str id="ShortcutPanel.headline" txt="Myapp - instalação"/>	
+	<str id="HTMLInfoPanel.headline" txt="Myapp - instalação"/>
+	<str id="installer.reversetitle" txt="${APP_NAME}"/>
+	<str id="UserInputPanel.dir.notdirectory.message" txt="Diretório não encontrado"/>
+	<str id="LicencePanel.headline.licence" txt="Termo de uso"/>
+	<str id="FinishPanel.success" txt="Instalação finalizada com sucesso. O Serviço foi criado e iniciado com sucesso."/>
+	<str id="FinishPanel.fail" txt="Ocorreu um erro durante a instalação."/>
+	
+	<str id="installOrUpdate.inform" txt="Seja bem vindo ao ${APP_NAME}. Clique no botão 'Próximo' para instalar."/>
+	<str id="radio.install" txt="Instalar o ${APP_NAME}"/>
+	<str id="radio.update" txt="Atualizar a minha instalação"/>
+
+     <str id="install.dir.label" txt="Diretório:"/>
+     <str id="install.dir.inform" txt="Informe abaixo o diretório de instalação do ${APP_NAME}"/>
+     <str id="install.folder.empty.validator" txt="O campo Diretório é obrigatório!"/>
+     <str id="validator.install.folder.blankField" txt="Deve ser selecionado um diretório para instalação."/>
+     <str id="validator.install.folder.freeSpace" txt="Espaço insuficiente!"/>
+     <str id="validator.install.folder.empty" txt="O diretório informado não está vazio! Selecione outro diretório."/>
+     <str id="validator.install.folder.create" txt="O diretório informado não existe e será criado."/>
+     <str id="data.validation.error.title" txt="Erro"/>
+     <str id="data.validation.warning.title" txt="Aviso"/>
+     
+     <str id="panelConfigDataBase.1.description.0" txt="Informe o tipo do banco de dados." />
+     <str id="dbconfig.server.spec" txt="Endereço do servidor:" />
+     <str id="dbconfig.server.validator" txt="Por favor informe um endereço válido." />       
+     <str id="dbconfig.port.spec" txt="Porta do banco de dados:" />
+     <str id="dbconfig.port.validator" txt="Por favor informe uma porta válida." />     
+     <str id="dbconfig.server.db.name.spec" txt="Informe o nome do banco de dados:" />     
+     <str id="dbconfig.server.db.name.validator" txt="Por favor informe o nome do banco de dados." />
+     <str id="dbconfig.server.db.user.description" txt="Credenciais do banco de dados." />
+     <str id="dbconfig.server.db.user.spec" txt="Informe usuário:" />
+     <str id="dbconfig.server.db.user.validator" txt="Por favor informe uma o usuário do banco de dados." />
+     <str id="dbconfig.server.db.password.validator" txt="As senhas devem corresponder." />
+     <str id="dbconfig.server.db.password.spec" txt="Informe a senha:" />
+     <str id="dbconfig.server.db.password.confirm.spec" txt="Confirme a senha:" />
+     <str id="panelConfigDataBase.2.description.0" txt="Configuração para um banco de dados tipo: ${DATABASE_TYPE}." />
+
+     <str id="panelConfigTaskScheduler.agent.description.0" 
+          txt="Exemplo de configuração para agendamento de tarefas" />
+     
+     <str id="panelOpenDirToCustom.tips.1" 
+          txt="Exemplo de como abrir um diretório por meio de um link." />
+     <str id="panelOpenDirToCustom.opendir.link" txt="&lt;html&gt;&lt;a href=&quot;file:///${WINDOWS_TEMP_DIR}&quot; style=&quot;color: #0c9abe; text-align: right;&quot;&gt;** Link para ${INSTALL_PATH} **&lt;/a&gt;&lt;/html&gt;" />
+              
+</izpack:langpack>

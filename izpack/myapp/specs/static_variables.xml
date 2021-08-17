@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<izpack:installation version="5.0" 
+    xmlns:izpack="http://izpack.org/schema/installation" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd">
+
+    <variables>
+        <variable name="TargetPanel.dir.windows" value="C:\myapp" />
+        <variable name="TargetPanel.dir.unix" value="/opt/myapp" />
+        <variable name="InstallerFrame.logfilePath" value="default" />
+        <variable name="UNINSTALL_PATH" value="${INSTALL_PATH}\Uninstaller" />
+        <variable name="WINDOWS_TEMP_DIR" value="C:\Windows\Temp" />
+
+        <variable name="INSTALL_BIN_PATH" value="bin" />
+        <variable name="INSTALL_UNINSTALL_PATH" value="Uninstaller" />
+
+        <variable name="SOURCE_FILE_PATH" value="../files" />
+        <variable name="SOURCE_MYAPP_PATH" value="myapp_bin" />
+        <variable name="SOURCE_BIN_PATH" value="exe" />
+        <variable name="SOURCE_CONFIG_PATH" value="config" />
+        <variable name="SOURCE_SCRIPT_PATH" value="scripts" />
+        
+        <variable name="INI_MYAPP" value="myapp.ini" />
+        <variable name="BIN_MYAPP" value="your_executable_here.bat" />
+        <variable name="SCRIPT_CLEANUP" value="cleanup.bat" />
+    </variables>
+</izpack:installation>

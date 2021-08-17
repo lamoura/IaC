@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<izpack:installation version="5.0" 
+  xmlns:izpack="http://izpack.org/schema/installation" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd"
+  xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <properties>
+    <property name="info.appVersion" value="0" />
+    <property name="info.appBuild" value="1" />
+    <property name="info.appProvider" value="company myapp" />
+    <property name="info.appName" value="- descripton label" />
+  </properties>
+
+  <info>
+    <appname>@{info.appProvider} @{info.appName} v@{info.appVersion}.@{info.appBuild}</appname>
+    <appversion>@{info.appVersion}</appversion>
+    <uninstaller name="uninstaller.jar" write="yes" />
+    <requiresjdk>no</requiresjdk>
+    <writeinstallationinformation>yes</writeinstallationinformation>
+    <run-privileged />
+  </info>
+
+  <consoleprefs>
+    <detectTerminal>true</detectTerminal>
+  </consoleprefs>
+
+  <!-- Load external modules 
+  <jar src="lib/dtdparser-1.21.jar" stage="install" />
+  <jar src="lib/jaxen-1.1.4.jar" stage="install" />
+  <jar src="lib/jdom2-2.0.5.jar" stage="install" />
+  -->
+
+  <guiprefs width="990" height="550" resizable="no">
+    <modifier key="useLabelIcons" value="no"/>
+    <modifier key="useButtonIcons" value="no"/>
+    <modifier key="useFlags" value="no"/>
+    <modifier key="langDisplayType" value="default"/>
+    <modifier key="useHeadingPanel" value="yes"/>
+    <modifier key="headingImageOnLeft" value="yes"/>
+    <modifier key="headingFontSize" value="1.5"/>
+    <modifier key="headingBackgroundColor" value="#0c9aba"/>
+    <modifier key="headingForegroundColor" value="#ffffff"/>
+    <modifier key="headingLineCount" value="2"/>
+    <modifier key="layoutFullLineStretch" value="FULL_LINE_STRETCH"/>
+    <modifier key="layoutFullColumnStretch" value="FULL_COLUMN_STRETCH"/>
+    <modifier key="headingPanelCounter" value="text"/>
+    <modifier key="headingPanelCounterPos" value="inHeading"/>
+    <modifier key="useSplashScreen" value="2000"/>    
+  </guiprefs>
+
+  <locale>
+    <langpack iso3="bra" />
+  </locale>
+
+  <natives>
+    <native type="izpack" name="ShellLink.dll"/>
+    <native type="izpack" name="ShellLink_x64.dll"/>
+  </natives>
+
+  <listeners>
+    <listener classname="ConfigurationInstallerListener" stage="install"/>
+  </listeners>
+
+  <xi:include href="specs/static_variables.xml"/>
+  <xi:include href="specs/conditions.xml"/>
+  <xi:include href="specs/dynamic_variables.xml"/>
+
+  <resources>
+    <res id="Installer.image.0" src="images/myapp.png"/>    
+    <!--
+    <res id="Installer.image.targetpanel.1" src="images/myapp.png"/>
+    <res id="Installer.image.panelConfigDataBase.1" src="images/myapp.png"/>
+    <res id="Installer.image.panelConfigDataBase.2" src="images/myapp.png"/> 
+    <res id="Installer.image.treepackspanel.1" src="images/myapp.png"/>
+    <res id="Installer.image.panelConfigDataBaseViews" src="images/myapp.png"/>    
+    <res id="Installer.image.panelConfigTaskScheduler" src="images/myapp.png"/>
+    <res id="Installer.image.installPanel.1" src="images/myapp.png"/>    
+    <res id="Installer.image.processPanel.1" src="images/myapp.png"/>    
+    <res id="Installer.image.panelOpenDirToCustomView.1" src="images/myapp.png"/>
+    <res id="JFrameIcon" src="images/myapp.png"/>
+    <res id="Splash.image" src="images/myapp.png"/>
+    <res id="Heading.image" src="images/myapp.png"/>
+    -->
+    <res id="LicencePanel.licence_bra" src="eula/license.txt_bra"/>
+
+    <res id="CustomLangPack.xml_bra" src="i18n/CustomLangPack.xml_bra" parsexml="yes"/>
+    <res id="userInputLang.xml_bra" src="i18n/userinput.xml_bra" parsexml="yes"/>
+    <res id="HTMLInfoPanel.preinstall" src="i18n/HTMLInfoPanelPreinstall.html_bra"/>
+    <res id="HTMLInfoPanel.notes" src="i18n/HTMLInfoPanel.html_bra"/>
+
+    <res id="ProcessPanel.Spec.xml" src="specs/process.xml" parsexml="yes"/>
+    <res id="userInputSpec.xml" src="specs/installInput.xml" parsexml="yes"/>
+  </resources>
+
+  <panels>
+    <panel classname="HTMLInfoPanel" id="preinstall"/>
+    <panel classname="LicencePanel"/>
+    <panel classname="TargetPanel" id="targetpanel.1"/>
+    <panel classname="TreePacksPanel" id="treepackspanel.1"/>
+    <panel classname="UserInputPanel" id="panelConfigTaskScheduler"/>
+    <panel classname="UserInputPanel" id="panelConfigDataBase.1"/>  
+    <panel classname="UserInputPanel" id="panelConfigDataBase.2"/>   
+    <panel classname="InstallPanel" id="installPanel.1"/>
+    <panel classname="ProcessPanel" id="processPanel.1"/>
+    <panel classname="HTMLInfoPanel" id="notes"/>
+    <panel classname="FinishPanel" condition="enableFinishPanel"/>
+  </panels>
+
+  <packs>
+    <refpack file="specs/data.xml"/>
+  </packs>
+</izpack:installation>

@@ -1,0 +1,22 @@
+<html>
+  <head>    
+    <style>
+      body {
+        font-family: helvetica, verdana, arial;
+        font-size: 9px;
+      }
+    </style>   
+  </head>
+  <body>    
+    <h3>PRONTO! A Jornada de configuração foi concluída.</h3>
+    <p>
+      Agora você possui seu sistema Myapp.<br>
+      <br>
+    </p>    
+    <p>
+      Em caso de dúvidas acesse o nosso: <a href="https://myapp.com/">FAQ</a><br>      
+      Para reportar um problema: <i>admin@myapp.com</i>
+    </p>    
+    <h4>Obrigado por utilizar o sistema Myapp.</h4>
+  </body>
+</html>

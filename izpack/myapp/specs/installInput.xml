@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<izpack:userinput version="5.0" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:izpack="http://izpack.org/schema/userinput" 
+  xsi:schemaLocation="http://izpack.org/schema/userinput http://izpack.org/schema/5.0/izpack-userinput-5.0.xsd">
+
+<!-- Database configuration panel 1 -->
+  <panel order="0" border="false" id="panelConfigDataBase.1">
+    <field type="space" />
+    <field type="staticText" id="panelConfigDataBase.1.description.0" />    
+    <field type="space" />    
+    <field type="divider" />
+    <field type="space" />
+    
+    <field type="radio" variable="DATABASE_TYPE">      
+      <spec>
+        <choice txt="Microsoft SQL Server" id="dbconfig.database.mssql" value="mssql" />
+        <choice txt="Oracle Database" id="dbconfig.database.oracle" value="oracle" />
+      </spec>
+    </field>
+  </panel>
+
+  <!-- Database configuration panel 2 -->
+  <panel order="1" border="false" id="panelConfigDataBase.2">
+    <field type="space" />    
+    <field type="staticText" id="panelConfigDataBase.2.description.0" />
+    <field type="space" />    
+    <field type="divider" />
+    <field type="space" />
+
+    <field type="text" variable="DB_SERVER_IP">
+      <spec id="dbconfig.server.spec" set="127.0.0.1" size="25" />
+      <validator id="dbconfig.server.validator" class="com.izforge.izpack.panels.userinput.validator.NotEmptyValidator" />
+    </field>
+
+    <field type="space" />
+    <field type="rule" variable="DB_SERVER_PORT">
+      <spec id="dbconfig.port.spec" layout="N:5:5" resultFormat="displayFormat" set="${DB_SERVER_PORT_DEFAULT}" />
+      <validator id="dbconfig.port.validator" class="com.izforge.izpack.panels.userinput.validator.IsPortValidator" />
+    </field>
+
+    <field type="space" />
+    <field type="text" variable="DB_NAME">
+      <spec id="dbconfig.server.db.name.spec" set="" size="25" />
+      <validator id="dbconfig.server.db.name.validator" class="com.izforge.izpack.panels.userinput.validator.NotEmptyValidator" />
+    </field>
+
+    <field type="space" />
+    <field id="dbconfig.server.db.user.description" type="staticText" align="left" />
+
+    <field type="text" variable="DB_USER">
+      <spec id="dbconfig.server.db.user.spec" size="25" />
+      <validator id="dbconfig.server.db.user.validator" class="com.izforge.izpack.panels.userinput.validator.NotEmptyValidator" />
+    </field>
+
+    <field type="password" align="left" variable="DB_PASSWORD">
+      <spec>
+        <pwd id="dbconfig.server.db.password.spec" size="25" set="" />
+        <pwd id="dbconfig.server.db.password.confirm.spec" size="25" set="" />
+      </spec>
+      <validator id="dbconfig.server.db.password.validator" class="com.izforge.izpack.panels.userinput.validator.PasswordEqualityValidator" />
+      <validator id="dbconfig.server.db.password.validator" class="com.izforge.izpack.panels.userinput.validator.NotEmptyValidator" />
+    </field>
+
+    <field type="space" />
+    <field type="space" />    
+    <field type="space" />  
+    <field type="staticText" align="left" id="panelOpenDirToCustom.tips.1" /> 
+    <field type="staticText" align="right" id="panelOpenDirToCustom.opendir.link" />
+    <field type="space" />  
+  </panel>
+
+  <!-- Example scheduler setup panel -->
+  <panel order="2" border="false" id="panelConfigTaskScheduler">
+    <field type="space" />
+    <field type="staticText" id="panelConfigTaskScheduler.agent.description.0" />
+    <field type="space" />    
+    <field type="divider" />
+    <field type="space" />    
+    
+    <field type="combo" variable="TASK_SCHEDULER_TIME">      
+      <spec id="panelConfigTaskScheduler.agent.spec">
+        <choice txt="01:00" value="01:00" />
+        <choice txt="02:00" value="02:00" />
+        <choice txt="03:00" value="03:00" />
+        <choice txt="04:00" value="04:00" />
+        <choice txt="05:00" value="05:00" />
+        <choice txt="06:00" value="06:00" />
+        <choice txt="07:00" value="07:00" />
+        <choice txt="08:00" value="08:00" />
+        <choice txt="09:00" value="09:00" />
+        <choice txt="10:00" value="10:00" />
+        <choice txt="11:00" value="11:00" />
+        <choice txt="12:00" value="12:00" />
+        <choice txt="13:00" value="13:00" />
+        <choice txt="14:00" value="14:00" />
+        <choice txt="15:00" value="15:00" />
+        <choice txt="16:00" value="16:00" />
+        <choice txt="17:00" value="17:00" />
+        <choice txt="18:00" value="18:00" />
+        <choice txt="19:00" value="19:00" />
+        <choice txt="20:00" value="20:00" />
+        <choice txt="21:00" value="21:00" />
+        <choice txt="22:00" value="22:00" />
+        <choice txt="23:00" value="23:00" set="true" />
+        <choice txt="24:00" value="24:00" />        
+      </spec>
+    </field>
+  </panel>
+
+</izpack:userinput>
