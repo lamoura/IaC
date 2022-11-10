@@ -1,7 +1,7 @@
 #cs ----------------------------------------------------------------------------
 
  AutoIt Version: 3.3.14.5
- Author:         Leandro Moura
+ Author:         lamoura
 
  Script Function:
 	User Defined Functions to use Google Workspace services.
