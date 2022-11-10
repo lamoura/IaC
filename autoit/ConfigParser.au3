@@ -1,7 +1,7 @@
 #cs ----------------------------------------------------------------------------
 
  AutoIt Version: 3.3.14.5
- Author:         Leandro Moura
+ Author:         lamoura
 
  Script Function:
 	A simple code which provides a function to get value from key in section of Microsoft Windows INI files.
